@@ -12,6 +12,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+var port = "5000"
+
 type SubRouter struct{}
 
 type todoType struct {
@@ -124,9 +126,9 @@ func main() {
 	mux.HandleFunc("/socket", socketHandler)
 	mux.Handle("/", &SubRouter{})
 
-	fmt.Println("Server: http://localhost:3333")
+	fmt.Printf("Server: http://localhost:%s", port)
 
-	err := http.ListenAndServe(":3333", mux)
+	err := http.ListenAndServe(fmt.Sprintf(":%s", port), mux)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Println("Server Shutdown")
 	} else if err != nil {
